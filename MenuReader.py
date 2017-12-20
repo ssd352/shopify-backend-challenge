@@ -10,10 +10,25 @@ class MenuReader(Reader):
     """
     This class sends HTTP request and encloses it in a json object
     """
-    FIRST_PAGE = "https://backend-challenge-summer-2018.herokuapp.com/challenges.json?id=1&page=1"
+    page = 1
+    URL = "https://backend-challenge-summer-2018.herokuapp.com/challenges.json?id={id}&page={page}"
 
-    @classmethod
-    def read_url(cls, url=FIRST_PAGE):
+    def __init__(self):
+        self.page = 1
+        output = MenuReader.read_url(MenuReader.URL.format(id=1, page=1))
+        self.total = output["pagination"]["total"]
+        # print(output, self.total)
+
+    def has_next(self):
+        return self.page <= self.total
+
+    def get_next(self):
+        next_page = MenuReader.read_url(MenuReader.URL.format(id=1, page=self.page))
+        self.page += 1
+        return next_page
+
+    @staticmethod
+    def read_url(url):
         """
 
         :param url:str
@@ -26,6 +41,10 @@ class MenuReader(Reader):
         return output
 
 
+# Unit Test
 if __name__ == "__main__":
-    output = MenuReader.read_url()
-    print(output)
+    mr = MenuReader()
+    while mr.has_next():
+        print(mr.get_next())
+    # output = mr.read_url()
+    # print(output)
