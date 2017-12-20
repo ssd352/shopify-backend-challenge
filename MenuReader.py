@@ -13,9 +13,10 @@ class MenuReader(Reader):
     page = 1
     URL = "https://backend-challenge-summer-2018.herokuapp.com/challenges.json?id={id}&page={page}"
 
-    def __init__(self):
+    def __init__(self, challenge_id):
         self.page = 1
-        output = MenuReader.read_url(MenuReader.URL.format(id=1, page=1))
+        self.challenge_id = challenge_id
+        output = MenuReader.read_url(MenuReader.URL.format(id=self.challenge_id, page=1))
         self.total = output["pagination"]["total"]
         # print(output, self.total)
 
@@ -23,7 +24,7 @@ class MenuReader(Reader):
         return self.page <= self.total
 
     def get_next(self):
-        next_page = MenuReader.read_url(MenuReader.URL.format(id=1, page=self.page))
+        next_page = MenuReader.read_url(MenuReader.URL.format(id=self.challenge_id, page=self.page))
         self.page += 1
         return next_page
 

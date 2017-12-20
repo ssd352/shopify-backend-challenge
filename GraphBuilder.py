@@ -2,17 +2,20 @@ import json
 
 
 class GraphNode:
-    def __init__(self, node_id, data, child_ids):
+    def __init__(self, node_id, data, child_ids, is_root=False):
         self.neighbors = []
         self.node_id = node_id
         self.data = data
+        self.is_root = is_root
         self.child_ids = list(child_ids)
 
     def __str__(self):
-        return '{{"id": {}, "data": {}, "child_ids": {}}}'.format(self.node_id, self.data, str(self.child_ids))
+        return '{{"id": {}, "data": {}, "child_ids": {}, "is_root": {}}}'.format(self.node_id, self.data,
+                                                                                 str(self.child_ids), self.is_root)
 
     def __repr__(self):
-        return '{{"id": {}, "data": {}, "child_ids": {}}}'.format(self.node_id, self.data, repr(self.child_ids))
+        return '{{"id": {}, "data": {}, "child_ids": {}, "is_root": {}}}'.format(self.node_id, self.data,
+                                                                                 str(self.child_ids), self.is_root)
 
     # def accept(self, visitor):
     #     visitor.visit(self)
@@ -51,7 +54,10 @@ class JsonGraphBuilder(GraphBuilder):
             node_id = item["id"]
             data = item["data"]
             child_ids = item["child_ids"]
-            self.__graph[item["id"]] = GraphNode(node_id=node_id, child_ids=child_ids, data=data)
+            if "parent_id" in item:
+                self.__graph[item["id"]] = GraphNode(node_id=node_id, child_ids=child_ids, data=data, is_root=False)
+            else:
+                self.__graph[item["id"]] = GraphNode(node_id=node_id, child_ids=child_ids, data=data, is_root=True)
             # print(self.node_map)
 
 

@@ -3,12 +3,18 @@ from DFS import DFS
 from MenuReader import MenuReader
 
 
-if __name__ == "__main__":
-    mr = MenuReader()
+def challenge(n):
+    mr = MenuReader(n)
     gb = JsonGraphBuilder()
     while mr.has_next():
         gb.build(mr.get_next())
     gr = gb.graph
+    # print(gr.values())
     dfs = DFS(gr)
     print(dfs.topological_sort())
-    # print('valids are', valids, 'invalids are', invalids)
+    print()
+
+
+if __name__ == "__main__":
+    challenge(1)
+    challenge(2)

@@ -45,5 +45,4 @@ if __name__ == "__main__":
     gb.build(json_obj)
     gr = gb.graph
     dfs = DFS(gr)
-    # valids, invalids = dfs.topological_sort()
     print(dfs.topological_sort())

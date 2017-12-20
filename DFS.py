@@ -23,20 +23,24 @@ class DFS(Visitor):
 
     def topological_sort(self):
         for node_id in self.graph:
-            if node_id not in self.marks:
+            # if node_id not in self.marks:
+            if self.graph[node_id].is_root:
                 self.sorted_nodes = []
                 valid = self.visit(node_id)
                 if valid:
-                    self.valid_menus.append(list(self.sorted_nodes[::-1]))
+                    self.valid_menus.append(sorted(self.sorted_nodes[::-1]))
                 else:
-                    self.invalid_menus.append(list(self.sorted_nodes[::-1]))
+                    self.invalid_menus.append(sorted(self.sorted_nodes[::-1]))
         return self.__json_format()
 
     def visit(self, node_id):
+        # print("current node is", node_id)
         if node_id in self.marks:
             if self.marks[node_id] == 'p':
+                # print("current node is", node_id)
                 return True
             elif self.marks[node_id] == 't':
+                # print("current node is", node_id)
                 self.sorted_nodes.append(node_id)
                 return False
                 # Cycle Detected
@@ -44,7 +48,9 @@ class DFS(Visitor):
             self.marks[node_id] = 't'
             b = True
             for neighbor in self.graph[node_id].child_ids:
-                b = b and self.visit(neighbor)
+                # print("current node is", node_id)
+                # print("neighbor is", neighbor)
+                b = self.visit(neighbor) and b
             self.marks[node_id] = 'p'
             self.sorted_nodes.append(node_id)
             return b
