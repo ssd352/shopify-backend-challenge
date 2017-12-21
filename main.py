@@ -11,10 +11,10 @@ def challenge(n):
     gr = gb.graph
     # print(gr.values())
     dfs = DFS(gr)
-    print(dfs.topological_sort())
-    print()
+    # return dfs.output
+    return dfs.json_format()
 
 
 if __name__ == "__main__":
-    challenge(1)
-    challenge(2)
+    print(challenge(1))
+    print(challenge(2))
