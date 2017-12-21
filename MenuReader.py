@@ -18,15 +18,21 @@ class MenuReader(Reader):
         self.challenge_id = challenge_id
         output = MenuReader.read_url(MenuReader.URL.format(id=self.challenge_id, page=1))
         self.total = output["pagination"]["total"]
+        self.output = []
         # print(output, self.total)
 
-    def has_next(self):
-        return self.page <= self.total
+    def __has_next(self):
+        return len(self.output) < self.total
 
-    def get_next(self):
+    def __get_next(self):
         next_page = MenuReader.read_url(MenuReader.URL.format(id=self.challenge_id, page=self.page))
         self.page += 1
         return next_page
+
+    def get_menus(self):
+        while self.__has_next():
+            self.output += self.__get_next()["menus"]
+        return self.output
 
     @staticmethod
     def read_url(url):
@@ -44,8 +50,12 @@ class MenuReader(Reader):
 
 # Unit Test
 if __name__ == "__main__":
-    mr = MenuReader()
-    while mr.has_next():
-        print(mr.get_next())
+    mr = MenuReader(1)
+    print(mr.get_menus())
+
+    mr = MenuReader(2)
+    print(mr.get_menus())
+    # while mr.has_next():
+    #     print(mr.get_next())
     # output = mr.read_url()
     # print(output)

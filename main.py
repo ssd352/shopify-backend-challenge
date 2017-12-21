@@ -6,8 +6,7 @@ from MenuReader import MenuReader
 def challenge(n):
     mr = MenuReader(n)
     gb = JsonGraphBuilder()
-    while mr.has_next():
-        gb.build(mr.get_next())
+    gb.build(mr.get_menus())
     gr = gb.graph
     # print(gr.values())
     dfs = DFS(gr)

@@ -50,7 +50,7 @@ class JsonGraphBuilder(GraphBuilder):
             node.accept(visitor)
 
     def build(self, json_obj):
-        for item in json_obj["menus"]:
+        for item in json_obj:
             node_id = item["id"]
             data = item["data"]
             child_ids = item["child_ids"]
