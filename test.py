@@ -4,8 +4,10 @@ import json
 
 
 if __name__ == "__main__":
-    json_obj = json.loads("""{
-  "menus":[
+    json_obj = json.loads(
+    #    """{"menus":
+    """
+  [
     {
       "id":1,
       "data":"House",
@@ -40,7 +42,8 @@ if __name__ == "__main__":
       "parent_id":4,
       "child_ids":[]
     }
-  ]}""")
+  ]""")
+    # }""")
     gb = JsonGraphBuilder()
     gb.build(json_obj)
     gr = gb.graph
