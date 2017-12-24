@@ -6,6 +6,7 @@ import json
 
 class DFS:
     PERMANENT = 'p'
+    TEMPORARY = 't'
 
     def __init__(self, graph):
         self.__sorted_nodes = []

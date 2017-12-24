@@ -2,12 +2,28 @@ import json
 
 
 class GraphNode:
-    def __init__(self, node_id, data, child_ids, is_root=False):
-        self.neighbors = []
-        self.node_id = node_id
-        self.data = data
-        self.is_root = is_root
-        self.child_ids = list(child_ids)
+    def __init__(self, node_id, data, child_ids=None, is_root=False):
+        # self.neighbors = []
+        self.__node_id = node_id
+        self.__data = data
+        self.__is_root = is_root
+        self.__child_ids = list(child_ids)
+
+    @property
+    def node_id(self):
+        return self.__node_id
+
+    @property
+    def data(self):
+        return self.__data
+
+    @property
+    def is_root(self):
+        return self.__is_root
+
+    @property
+    def child_ids(self):
+        return self.__child_ids
 
     def __str__(self):
         return '{{"id": {}, "data": {}, "child_ids": {}, "is_root": {}}}'.format(self.node_id, self.data,
@@ -40,14 +56,6 @@ class JsonGraphBuilder(GraphBuilder):
     @property
     def graph(self):
         return dict(self.__graph)
-
-    # @visitor.setter
-    # def visitor(self, visitor):
-    #     self.__visitor = visitor
-
-    def accept(self, visitor):
-        for node in self.node_map.values():
-            node.accept(visitor)
 
     def build(self, json_obj):
         for item in json_obj:
